@@ -1,0 +1,107 @@
+base.html
+
+<!-- <html>
+    <head>
+        {% if title %}
+        <title> {{ title }} </title>
+        {% else %}
+        <title> CSMS </title>
+        {% endif %}
+    </head>
+
+    <body>
+        <div>CSMS: <a href={{ url_for('home') }}>Home</a> <a href={{ url_for('login') }}>Login</a></div>
+        <hr>
+        
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+    </body>
+
+</html> -->
+
+
+
+
+<!-- Navbar Right Side -->
+            <!-- <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+              {% endif %}
+            </div> -->
+
+<!-- {% block scripts %}
+    		<script >
+        		function set_message_count(n) {
+					$('#message_count').text(n);
+					$('#message_count').css('visibility', n ? 'visible' : 'hidden');
+			}
+			
+			{% if current_user.is_authenticated %}  			
+        		async function longpoll(){
+        			setInterval( function() {
+        				fetch('/notify').then(function (response) {
+        					return response.json();
+        				}).then(function (text) {
+        					set_message_count(text.count);
+        					console.log('GET response:');
+        					console.log(text.count);
+        				});
+        			},1000);
+        		}
+        		longpoll();
+        		{% endif %}
+    		</script>
+          {% endblock %} -->
+
+<!-- <div class="col-md-4">
+          <div class="content-section">
+            <h3>Dashboard</h3>
+            <p class='text-muted'>Gist of sensor functions.
+              <ul class="list-group">
+                <li id ="LeakDetect"class="list-group-item list-group-item-light">Leakage Detected: {{msg}}</li>
+                <li class="list-group-item list-group-item-light">Differential Flow Rates: Normal</li>
+                <li class="list-group-item list-group-item-light">Pipeline Health: Good</li>
+                <li class="list-group-item list-group-item-light">Leakage Positions: {{loc}}</li>
+              </ul>
+            </p>
+          </div>
+        </div> -->
+
+
+login.html
+
+
+    <!-- <h1>Sign In</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form> -->
