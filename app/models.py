@@ -3,38 +3,46 @@ from app import db
 class User(db.Model):
     __tablename__ = "Credentials"
     email_id = db.Column(db.String(120), primary_key = True)
-    password_hash = db.Column(db.String(128))
-    type = db.Column(db.String(20)) # 3 types - Student, Counsellor and Teacher
+    password_hash = db.Column(db.String(128), nullable = False)
+    type = db.Column(db.String(20), nullable = False) # 3 types - Student, Counsellor and Teacher
 
     def __repr__(self):
         return '<User {}>'.format(self.email_id)
 
-# class Student(db.Model):
-    # __tablename__ = "Student"
-    # s_email_id = db.Column(db.String(120), primary_key = True)
-    # usn = db.Column(db.String(10), unique = True, nullable = False)
-    # f_name = db.Column(db.String(250), nullable = False)
-    # l_name = db.Column(db.String(250), nullable = False)
-    # c_email_id = db.relationship('Counsellor',db.ForeignKey('counsellor.c_email_id'))
-# 
-# class Counsellor(db.Model):
-    # __tablename__ = "Counsellor"
-    # c_email_id = db.Column(db.String(120), primary_key = True)
-    # f_name = db.Column(db.String(250), nullable = False)
-    # l_name = db.Column(db.String(250), nullable = False)
-    # counsellees = db.relationship('Student', backref = 'counsellor', lazy = 'dynamic')
-    # dept_id = db.relationship('Department')
-# 
-# class Parent(db.Model):
-    # __tablename__ = "Parent"
-    # p_email_id = db.Column(db.String(120), primary_key = True)
-    # f_name = db.Column(db.String(250))
-    # l_name = db.Column(db.String(250))
-    # c_email_id = db.relationship('Counsellor')
-    # s_email_id = db.relationship('Student')
-# 
-# class Department(db.Model):
-    # __tablename__ = "Department"
-    # dept_id = db.Column(db.String(5), primary_key = True)
-    # dept_name = db.Column(db.String(20))
-    # hod_email_id = db.relationship('Counsellor')
+class Student(db.Model):
+    __tablename__ = "Student"
+    s_email_id = db.Column(db.String(120), primary_key = True)
+    usn = db.Column(db.String(10), unique = True, nullable = False)
+    f_name = db.Column(db.String(250), nullable = False)
+    l_name = db.Column(db.String(250), nullable = False)
+    c_email_id = db.Column(db.String(120),db.ForeignKey('Counsellor.c_email_id'))
+
+class Counsellor(db.Model):
+    __tablename__ = "Counsellor"
+    c_email_id = db.Column(db.String(120), primary_key = True)
+    f_name = db.Column(db.String(250), nullable = False)
+    l_name = db.Column(db.String(250), nullable = False)
+    dept_id = db.Column(db.String(5),db.ForeignKey('Department.dept_id'))
+
+    counsellees = db.relationship('Student', backref = db.backref('counsellor',lazy = 'joined'), lazy = 'subquery')
+
+class Parent(db.Model):
+    __tablename__ = "Parent"
+    p_email_id = db.Column(db.String(120), primary_key = True)
+    f_name = db.Column(db.String(250),nullable = False)
+    l_name = db.Column(db.String(250),nullable = False)
+    c_email_id = db.Column(db.String(120),db.ForeignKey('Counsellor.c_email_id'))
+    s_email_id = db.Column(db.String(120),db.ForeignKey('Student.s_email_id'))
+
+    child = db.relationship('Student', backref = db.backref('parent', lazy = 'joined'), lazy = 'joined')
+    counsellor = db.relationship('Counsellor', backref = db.backref('parent', lazy = 'select'), lazy = 'joined')
+    
+
+class Department(db.Model):
+    __tablename__ = "Department"
+    dept_id = db.Column(db.String(5), primary_key = True)
+    dept_name = db.Column(db.String(20),nullable = False)
+    hod_email_id = db.Column(db.String(120),db.ForeignKey('Counsellor.c_email_id'))
+
+    hod = db.relationship('Counsellor', backref = db.backref('managing-department', lazy = 'select'), lazy = 'joined')
+    professors = db.relationship(db.String(120),backref = db.backref('department', lazy = 'joined'), lazy = 'select')
