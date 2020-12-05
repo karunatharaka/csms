@@ -10,8 +10,6 @@ app = Flask(__name__)
 
 app.config.from_object(Config)
 
-from app import routes
-
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
@@ -19,3 +17,5 @@ migrate = Migrate(app, db)
 #bcrypt = Bcrypt(app)
 
 #login_manager = LoginManager(app)
+
+from app import routes,models
