@@ -46,3 +46,11 @@ class Department(db.Model):
 
     hod = db.relationship('Counsellor', backref = db.backref('managing-department', lazy = 'select'), lazy = 'joined')
     professors = db.relationship(db.String(120),backref = db.backref('department', lazy = 'joined'), lazy = 'select')
+class Course(db.Model):
+    __tablename__ = "Course"
+    course_code = db.Column(db.String(10), primary_key = True)
+    course_name = db.Column(db.String(50),nullable = False)
+    dept_id = db.Column(db.String(5),db.ForeignKey('Department.dept_id'))
+    department= db.relationship('Department', backref = db.backref('Course', lazy = 'select'), lazy = 'joined')
+
+   
